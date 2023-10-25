@@ -30,7 +30,7 @@ class BaseModel:
         Return:
             str: Representacion de instancia.
         """
-        return f"[BaseModel] ({self.id}) {self.__dict__}"
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """
@@ -46,12 +46,8 @@ class BaseModel:
             dict: Regresa un diccionario con los atributos de instancia.
 
         """
-        attributes = {}
-        for key, value in self.__dict__.items():
-            if not key.startswith("_"):
-                if key == "created_at" or key == "updated_at":
-                    attributes[key] = datetime.datetime.fromisoformat(value).isoformat()
-                else:
-                    attributes[key] = value
+        attributes = self.__dict__.copy()
         attributes['__class__'] = self.__class__.__name__
+        attributes['created_at'] = self.created_at.isoformat()
+        attributes['updated_at'] = self.updated_at.isoformat()
         return attributes
