@@ -46,5 +46,12 @@ class BaseModel:
             dict: Regresa un diccionario con los atributos de instancia.
 
         """
-        self.__dict__["__class__"] = "BaseModel"
-        return self.__dict__
+        attributes = {}
+        for key, value in self.__dict__.items():
+            if not key.startswith("_"):
+                if key == "created_at" or key == "updated_at":
+                    attributes[key] = datetime.datetime.fromisoformat(value).isoformat()
+                else:
+                    attributes[key] = value
+        attributes['__class__'] = self.__class__.__name__
+        return attributes
