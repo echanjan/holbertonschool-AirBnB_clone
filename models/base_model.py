@@ -46,5 +46,5 @@ class BaseModel:
             dict: Regresa un diccionario con los atributos de instancia.
 
         """
-        self.__dict__['__class__'] = 'BaseModel'
+        self.__dict__["__class__"] = "BaseModel"
         return self.__dict__
