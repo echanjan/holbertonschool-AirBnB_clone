@@ -19,7 +19,7 @@ class BaseModel:
     nueva instancia de la clase.
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Asignamos un identificador único generado por 'uuid.uuid4()'
         y lo convertimos a una cadena.
@@ -31,8 +31,19 @@ class BaseModel:
         para que esté igual al momento de creación al principio.
         """
 
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.datetime.now()
+        if kwargs:
+            for k, v in kwargs.items():
+                if k != "__class__":
+                    setattr(self, k, v)
+            self.__dict__["created_at"] = datetime.strptime(
+                self.__dict__["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
+
+            self.__dict__["updated_at"] = datetime.strptime(
+                self.__dict__["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
+
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.datetime.now()
         self.updated_at = datetime.datetime.now()
 
     """
