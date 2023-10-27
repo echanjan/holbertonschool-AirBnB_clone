@@ -1,39 +1,68 @@
 #!/usr/bin/python3
+"""
+Este modulo contiene los casos de prueba para
+nuestra clase BaseModel.
+"""
+
 
 import unittest
-import datetime
 from models.base_model import BaseModel
+import time
+
 
 class TestBaseModel(unittest.TestCase):
+    """
+    Esta clase define los casos de prueba.
+    """
 
     def setUp(self):
-        self.base_model = BaseModel()
+        """
+        Se crea una instancia de nuestra clase BaseModel
+        """
+        self.bm = BaseModel()
 
-    def test_save_method_updates_updated_at(self):
-        old_updated_at = self.base_model.updated_at
-        self.base_model.save()
-        new_updated_at = self.base_model.updated_at
-        self.assertNotEqual(old_updated_at, new_updated_at)
+    def test_init(self):
+        """
+        Se comparan los atributos con los tipos de datos.
+        """
+        self.assertIsInstance(self.bm.id, str)
 
-    def test_to_dict_method(self):
-        expected_dict = {
-            'id': self.base_model.id,
-            'created_at': self.base_model.created_at.isoformat(),
-            'updated_at': self.base_model.updated_at.isoformat(),
-            '__class__': 'BaseModel'
-        }
-        self.assertEqual(self.base_model.to_dict(), expected_dict)
+    def test_return(self):
+        """
+        Compara el retorno como None de save().
+        """
+        self.assertIsNone(self.bm.save())
 
-    def test_id_attribute(self):
-        self.assertIsInstance(self.base_model.id, str)
+    def test_compare_attrs(self):
+        """
+        Verifica que contengan todos los atributos.
+        """
+        model_dict = self.bm.to_dict()
+        self.assertIn('id', model_dict)
+        self.assertIn('created_at', model_dict)
+        self.assertIn('updated_at', model_dict)
+        self.assertIn('__class__', model_dict)
 
-    def test_created_at_attribute(self):
-        self.assertIsInstance(self.base_model.created_at, datetime.datetime)
+    def test_methods_magic_str(self):
+        """
+        Compara la salida del método magic __str__.
+        """
+        bm = BaseModel()
+        expected_output = "[{}] ({}) {}".format(
+            bm.__class__.__name__, bm.id, bm.__dict__)
+        self.assertEqual(str(bm), expected_output)
 
-    def test_str_method(self):
-        expected_output = f"[BaseModel] ({self.base_model.id}) {self.base_model.__dict__}"
-        self.assertEqual(str(self.base_model), expected_output)
+    def test_update_date(self):
+        """
+        Este test actualiza el atributo updated_at, para compararlo
+        después de llamar al método save().
+        """
+        model = BaseModel()
+        original_updated_at = model.updated_at
+        time.sleep(1)
+        model.save()
+        self.assertNotEqual(original_updated_at, model.updated_at)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
-
