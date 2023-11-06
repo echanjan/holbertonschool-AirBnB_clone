@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Este módulo define la clase FileStorage
+Este módulo define la clase FileStorage.
 """
 import json
 from os import path
@@ -56,8 +56,8 @@ class FileStorage:
         anteriormente, estas instancias serán almacenadas en .__objects.
         """
         if path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, 'r', encoding='utf-8') as json_file:
-                objs = json.load(json_file)
+            with open(FileStorage.__file_path, 'r', encoding='utf-8') as f:
+                objs = json.load(f)
             for k, v in objs.items():
                 from models.base_model import BaseModel
                 bs = BaseModel(**v)
@@ -66,16 +66,16 @@ class FileStorage:
     def attributes(self):
         """Returns the valid attributes and their types for classname"""
         attributes = {
-                "BaseModel":
-                    {"id": str,
-                    "created_at": datetime.datetime,
-                    "updated_at": datetime.datetime},
-                    "User":
+            "BaseModel":
+                {"id": str,
+                "created_at": datetime.datetime,
+                "updated_at": datetime.datetime},
+            "User":
                 {"email": str,
-                    "password": str,
-                    "first_name": str,
-                    "last_name": str
-                    },
+                "password": str,
+                "first_name": str,
+                "last_name": str
+                },
         }
 
         return attributes
