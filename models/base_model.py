@@ -19,12 +19,12 @@ class BaseModel:
             id, created_at, updated_at
         Attr:
             id (str): Genera un id cada vez que se instancia
-            created_ad (str): Genera la hora y fecha cada vez 
+            created_ad (str): Genera la hora y fecha cada vez
             que se instancia un nuevo objeto.
             updated_at (str): Genera y actualiza la hora y fecha
             cada vez que se cambia nuestra instancia.
         """
-        if bool (kwargs):
+        if bool(kwargs):
             for k, v in kwargs.items():
                 if k != "__class__":
                     setattr(self, k, v)
