@@ -9,8 +9,8 @@ import datetime
 
 class FileStorage:
     """
-    La clase FileStorage se encargará de serializar y
-    deserealizar archivos para recuperar instancias de BaseModel
+    La clase FileStorage se encargará se serializar y
+    deserealizar archivos para recuperar instancias de BaseModel.
     """
     __file_path = "file.json"
     __objects = {}
@@ -25,10 +25,10 @@ class FileStorage:
 
     def new(self, obj):
         """
-        Este método almacena las instancias de clase,
+        Este método almacena la instancias de clase,
         recibidas en .__objects.
         Args:
-            obj (objec): Instancias a almacenar.
+            obj (object): Instacias a almacenar.
         """
         key = f"{obj.__class__.__name__}.{obj.id}"
         FileStorage.__objects[key] = obj
@@ -36,7 +36,7 @@ class FileStorage:
     def save(self):
         """
         Este método guarda un diccionario retornado de las
-        instancias almacenadas en.__objects.
+        instancias almacenadas en .__objects.
         Return:
             None
         """
@@ -53,7 +53,7 @@ class FileStorage:
         previamente con el método .save(), el diccionario recuperado
         se convertirá a objetos de python (dict) que seran utilizados
         para recuperar las instancias de clase BaseModel creadas
-        anteriormente, estas instancias serán almacenadas en .__objects.
+        anteriormente, estan istancias serán almacendas en .__objects.
         """
         if path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r', encoding='utf-8') as f:
